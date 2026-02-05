@@ -1,94 +1,108 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useSiteData } from "@/lib/site-context";
+import { useState } from 'react';
+import Link from 'next/link';
+import { Menu, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { config } = useSiteData();
+import { SiteConfig } from '@/interfaces/site.interfaces';
 
-  const navLinks = [
-    { href: "#inicio", label: "Inicio" },
-    { href: "#servicios", label: "Servicios" },
-    { href: "#proyectos", label: "Proyectos" },
-    { href: "#contacto", label: "Contacto" },
-  ];
+interface Props {
+	config: SiteConfig | null;
+}
+export function Header({ config }: Props) {
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-primary rounded flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">CM</span>
-            </div>
-            <span className="font-semibold text-foreground hidden sm:block">
-              {config.companyName}
-            </span>
-          </Link>
+	const navLinks = [
+		{ href: '#inicio', label: 'Inicio' },
+		{ href: '#servicios', label: 'Servicios' },
+		{ href: '#proyectos', label: 'Proyectos' },
+		{ href: '#contacto', label: 'Contacto' },
+	];
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
+	return (
+		<header className='bg-background/95 border-border fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-sm'>
+			<nav className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+				<div className='flex h-16 items-center justify-between'>
+					{/* Logo */}
+					<Link
+						href='/'
+						className='flex items-center gap-2'
+					>
+						<div className='bg-primary flex h-10 w-10 items-center justify-center rounded'>
+							<span className='text-primary-foreground text-lg font-bold'>
+								CM
+							</span>
+						</div>
+						<span className='text-foreground hidden font-semibold sm:block'>
+							{config?.companyName}
+						</span>
+					</Link>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button asChild>
-              <a href="#contacto">Solicitar Presupuesto</a>
-            </Button>
-          </div>
+					{/* Desktop Navigation */}
+					<div className='hidden items-center gap-8 md:flex'>
+						{navLinks.map((link) => (
+							<a
+								key={link.href}
+								href={link.href}
+								className='text-muted-foreground hover:text-foreground text-sm font-medium transition-colors'
+							>
+								{link.label}
+							</a>
+						))}
+					</div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="md:hidden p-2"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? (
-              <X className="w-6 h-6 text-foreground" />
-            ) : (
-              <Menu className="w-6 h-6 text-foreground" />
-            )}
-          </button>
-        </div>
+					{/* CTA Button */}
+					<div className='hidden md:block'>
+						<Button asChild>
+							<a href='#contacto'>Solicitar Presupuesto</a>
+						</Button>
+					</div>
 
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ))}
-              <Button asChild className="mt-2">
-                <a href="#contacto" onClick={() => setIsMenuOpen(false)}>
-                  Solicitar Presupuesto
-                </a>
-              </Button>
-            </div>
-          </div>
-        )}
-      </nav>
-    </header>
-  );
+					{/* Mobile Menu Button */}
+					<button
+						type='button'
+						className='p-2 md:hidden'
+						onClick={() => setIsMenuOpen(!isMenuOpen)}
+						aria-label='Toggle menu'
+					>
+						{isMenuOpen ? (
+							<X className='text-foreground h-6 w-6' />
+						) : (
+							<Menu className='text-foreground h-6 w-6' />
+						)}
+					</button>
+				</div>
+
+				{/* Mobile Navigation */}
+				{isMenuOpen && (
+					<div className='border-border border-t py-4 md:hidden'>
+						<div className='flex flex-col gap-4'>
+							{navLinks.map((link) => (
+								<a
+									key={link.href}
+									href={link.href}
+									className='text-muted-foreground hover:text-foreground text-sm font-medium transition-colors'
+									onClick={() => setIsMenuOpen(false)}
+								>
+									{link.label}
+								</a>
+							))}
+							<Button
+								asChild
+								className='mt-2'
+							>
+								<a
+									href='#contacto'
+									onClick={() => setIsMenuOpen(false)}
+								>
+									Solicitar Presupuesto
+								</a>
+							</Button>
+						</div>
+					</div>
+				)}
+			</nav>
+		</header>
+	);
 }

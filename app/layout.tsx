@@ -1,45 +1,40 @@
-import React from "react"
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import React from 'react';
+import type { Metadata } from 'next';
 
-const _inter = Inter({ subsets: ["latin"] });
+import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'Constructora Moderna | Construcción de Calidad',
-  description: 'Empresa de construcción líder. Obras residenciales, comerciales y reformas integrales con la mejor calidad y compromiso.',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
-}
+	title: 'Constructora Moderna | Construcción de Calidad',
+	description:
+		'Empresa de construcción líder. Obras residenciales, comerciales y reformas integrales con la mejor calidad y compromiso.',
+
+	icons: {
+		icon: [
+			{
+				url: '/contruction.png',
+				media: '(prefers-color-scheme: light)',
+			},
+			{
+				url: '/contruction.png',
+				media: '(prefers-color-scheme: dark)',
+			},
+		],
+		apple: '/contruction.png',
+	},
+};
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="es">
-      <body className={`font-sans antialiased`}>
-        {children}
-        <Analytics />
-      </body>
-    </html>
-  )
+	return (
+		<html lang='es'>
+			<body className={`font-sans antialiased`}>
+				<Toaster />
+				{children}
+			</body>
+		</html>
+	);
 }

@@ -1,43 +1,36 @@
-"use client";
+import { Metadata } from 'next';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/admin/app-sidebar';
+import { redirect } from 'next/navigation';
+import { UserDropdown } from '@/components/user/user-dropdown';
+import { Toaster } from '@/components/ui/toaster';
 
-import React from "react"
-
-import { SiteProvider } from "@/lib/site-context";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+export const metadata: Metadata = {
+	title: 'Panel de Administración | Construction Company',
+	description: 'Gestión de contenido, servicios y carrusel.',
+	robots: 'noindex, nofollow',
+};
 
 export default function AdminLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
-  return (
-    <SiteProvider>
-      <div className="min-h-screen bg-muted">
-        {/* Admin Header */}
-        <header className="bg-background border-b border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center gap-4">
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span className="text-sm">Volver al sitio</span>
-                </Link>
-                <div className="h-6 w-px bg-border" />
-                <h1 className="font-semibold text-foreground">Panel de Administración</h1>
-              </div>
-            </div>
-          </div>
-        </header>
+	return (
+		<SidebarProvider>
+			<AppSidebar />
+			<Toaster />
+			<div className='grid w-full grid-rows-[3.5rem_1fr]'>
+				<header className='bg-background border-border flex w-full items-center justify-between border-b px-4'>
+					<SidebarTrigger />
 
-        {/* Main Content */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {children}
-        </main>
-      </div>
-    </SiteProvider>
-  );
+					<UserDropdown />
+				</header>
+
+				<main className='bg-muted flex-1 px-4 py-8 sm:px-6 lg:px-8'>
+					<div className='mx-auto max-w-7xl'>{children}</div>
+				</main>
+			</div>
+		</SidebarProvider>
+	);
 }
