@@ -48,7 +48,6 @@ export default function LoginPage() {
 		const result = await signIn.email({
 			email,
 			password,
-			callbackURL: '/admin',
 		});
 
 		if (result.error) {
@@ -57,8 +56,9 @@ export default function LoginPage() {
 			return;
 		}
 
-		router.push('/admin');
 		router.refresh();
+
+		router.push('/admin');
 	};
 
 	return (
