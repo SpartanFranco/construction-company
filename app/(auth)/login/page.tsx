@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react'; // Añadido useState aquí
-import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card';
-// Añadidos los iconos Eye y EyeOff
+
 import {
 	Building2,
 	Mail,
@@ -32,7 +32,6 @@ export default function LoginPage() {
 	const [showPassword, setShowPassword] = useState(false); // Nuevo estado
 	const [error, setError] = useState('');
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const router = useRouter();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -45,9 +44,11 @@ export default function LoginPage() {
 			return;
 		}
 
+		// Usamos await para asegurar que la sesión se cree ANTES de movernos
 		const result = await signIn.email({
 			email,
 			password,
+			callbackURL: '/admin',
 		});
 
 		if (result.error) {
@@ -55,10 +56,6 @@ export default function LoginPage() {
 			setIsSubmitting(false);
 			return;
 		}
-
-		router.refresh();
-
-		router.push('/admin');
 	};
 
 	return (
